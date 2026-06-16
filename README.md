@@ -4,10 +4,10 @@
 
 ## Özellikler ✨
 
-- ✅ **506 SK (SSK)** - Yaştan, Normal, EYT, Kademeli emeklilik koşulları
-- ✅ **5510 SK** - Ana yaşlılık aylığı, 15 yıl + gün koşulları
-- ✅ **2926 SK** - Tarım Bağ-Kuru emekliliği
-- ✅ **Maden Yeraltı Emekliliği** - Özel koşullar
+- ✅ **4/a (SSK)** - Normal, Yaştan, EYT koşulları
+- ✅ **4/b (Bağ-Kur)** - Tüm versiyon hesaplamları
+- ✅ **4/c (Memur)** - Tüm versiyon hesaplamları
+- ✅ **2925 (Tarım Sigortası)** - Tarım emekliliği
 - ✅ **Form Validasyonu** - Gerçek zamanlı veri kontrolü
 - ✅ **Responsive Tasarım** - Telefon, tablet ve bilgisayar uyumlu
 - ✅ **Tahmini Emeklilik Tarihi** - Geri sayım bildirimi

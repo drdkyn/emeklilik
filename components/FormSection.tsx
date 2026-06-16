@@ -1,24 +1,30 @@
+'use client';
+
 interface FormSectionProps {
   form: {
     dogumTarihi: string;
     cinsiyet: 'erkek' | 'kadin';
     ilkIsGirisTarihi: string;
     priGunu: number;
-    borclanlmisGun: number;
-    madenGunu: number;
+    askerlikBorclanlmasi: number;
+    askerlikNedir: 'once' | 'sonra';
     statular: string[];
   };
+  hesaplananIlkIsGirisTarihi?: string;
   errors: Record<string, string>;
   onFormChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
   onCheckbox: (statü: string) => void;
+  onAskerlikChange: (nedir: 'once' | 'sonra') => void;
   onHesapla: () => void;
 }
 
 export default function FormSection({
   form,
+  hesaplananIlkIsGirisTarihi,
   errors,
   onFormChange,
   onCheckbox,
+  onAskerlikChange,
   onHesapla,
 }: FormSectionProps) {
   return (
@@ -84,91 +90,112 @@ export default function FormSection({
         <input
           type="number"
           name="priGunu"
-          value={form.priGunu}
+          value={form.priGunu || ''}
           onChange={onFormChange}
           min="0"
           max="20000"
+          placeholder="0"
           className={`input-field ${errors.priGunu ? 'border-red-500' : ''}`}
         />
         {errors.priGunu && <p className="text-xs text-red-600 mt-1">{errors.priGunu}</p>}
       </div>
 
-      {/* Borrowed Days */}
-      <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Borçlanmış Gün
-          <span className="text-gray-500 text-xs ml-1">(askerlik, doğum vb.)</span>
+      {/* Askerlik Borçlanması */}
+      <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+        <label className="block text-sm font-medium text-gray-900 mb-3">
+          Askerlik Borçlanması <span className="text-gray-500 text-xs ml-1">(Gün)</span>
         </label>
+
+        {/* Input */}
         <input
           type="number"
-          name="borclanlmisGun"
-          value={form.borclanlmisGun}
+          name="askerlikBorclanlmasi"
+          value={form.askerlikBorclanlmasi || ''}
           onChange={onFormChange}
           min="0"
-          className={`input-field ${errors.borclanlmisGun ? 'border-red-500' : ''}`}
+          placeholder="0"
+          className={`input-field mb-3 ${errors.askerlikBorclanlmasi ? 'border-red-500' : ''}`}
         />
-        {errors.borclanlmisGun && (
-          <p className="text-xs text-red-600 mt-1">{errors.borclanlmisGun}</p>
+
+        {/* Radio Buttons */}
+        <div className="space-y-2">
+          <label className="flex items-center">
+            <input
+              type="radio"
+              name="askerlikNedir"
+              value="once"
+              checked={form.askerlikNedir === 'once'}
+              onChange={() => onAskerlikChange('once')}
+              className="w-4 h-4 text-blue-600"
+            />
+            <span className="ml-2 text-sm text-gray-700">
+              İlk işe girişten <strong>ÖNCE</strong>
+              <span className="text-xs text-gray-500 ml-1">(Tarih geriye çekilir)</span>
+            </span>
+          </label>
+
+          <label className="flex items-center">
+            <input
+              type="radio"
+              name="askerlikNedir"
+              value="sonra"
+              checked={form.askerlikNedir === 'sonra'}
+              onChange={() => onAskerlikChange('sonra')}
+              className="w-4 h-4 text-blue-600"
+            />
+            <span className="ml-2 text-sm text-gray-700">
+              İlk işe girişten <strong>SONRA</strong>
+              <span className="text-xs text-gray-500 ml-1">(Normal hesaplama)</span>
+            </span>
+          </label>
+        </div>
+
+        {errors.askerlikBorclanlmasi && (
+          <p className="text-xs text-red-600 mt-2">{errors.askerlikBorclanlmasi}</p>
+        )}
+
+        {/* Hesaplanan Tarih */}
+        {hesaplananIlkIsGirisTarihi && form.askerlikNedir === 'once' && form.askerlikBorclanlmasi > 0 && (
+          <div className="mt-3 p-2 bg-green-50 border border-green-200 rounded text-sm text-green-800">
+            <strong>Hesaplanan İlk İşe Giriş:</strong> {hesaplananIlkIsGirisTarihi}
+          </div>
         )}
       </div>
 
-      {/* Mining Days */}
-      <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Maden Günü <span className="text-gray-500 text-xs ml-1">(varsa)</span>
-        </label>
-        <input
-          type="number"
-          name="madenGunu"
-          value={form.madenGunu}
-          onChange={onFormChange}
-          min="0"
-          max="10000"
-          className={`input-field ${errors.madenGunu ? 'border-red-500' : ''}`}
-        />
-        {errors.madenGunu && (
-          <p className="text-xs text-red-600 mt-1">{errors.madenGunu}</p>
-        )}
-      </div>
-
-      {/* Status Selection */}
+      {/* Statü Seçimi */}
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-700 mb-3">
-          Statü Seçimi <span className="text-red-500">*</span>
+          Sigortalılık Statüsü <span className="text-red-500">*</span>
         </label>
         <div className="space-y-2">
           {[
-            { value: '4a', label: '4/a (SSK/İşçi)' },
+            { value: '4a', label: '4/a (SSK)' },
             { value: '4b', label: '4/b (Bağ-Kur)' },
             { value: '4c', label: '4/c (Memur)' },
-            { value: '2926', label: '2926 (Tarım Bağ-Kuru)' },
-            { value: 'maden', label: 'Maden Yeraltı' },
+            { value: '2925', label: '2925 (Tarım Sigortası)' },
           ].map((stat) => (
-            <label key={stat.value} className="flex items-center gap-3 cursor-pointer p-2 hover:bg-gray-50 rounded-lg transition">
+            <label key={stat.value} className="flex items-center">
               <input
                 type="checkbox"
                 checked={form.statular.includes(stat.value)}
                 onChange={() => onCheckbox(stat.value)}
-                className="w-4 h-4 text-primary rounded focus:ring-2 focus:ring-primary"
+                className="w-4 h-4 text-blue-600 rounded border-gray-300"
               />
-              <span className="text-sm text-gray-700">{stat.label}</span>
+              <span className="ml-2 text-sm text-gray-700">{stat.label}</span>
             </label>
           ))}
         </div>
-        {errors.statular && <p className="text-xs text-red-600 mt-2">{errors.statular}</p>}
+        {errors.statular && (
+          <p className="text-xs text-red-600 mt-2">{errors.statular}</p>
+        )}
       </div>
 
-      {/* Calculate Button */}
-      <button onClick={onHesapla} className="btn btn-primary w-full mb-4">
-        🧮 Hesapla
-      </button>
-
-      {/* Reset Button */}
+      {/* Hesapla Button */}
       <button
-        onClick={() => window.location.reload()}
-        className="btn btn-secondary w-full"
+        onClick={onHesapla}
+        className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
       >
-        ↻ Sıfırla
+        Hesapla
       </button>
     </div>
   );

@@ -12,12 +12,10 @@ export default function Home() {
     cinsiyet: 'erkek' as 'erkek' | 'kadin',
     ilkIsGirisTarihi: '1995-09-08',
     priGunu: 7200,
-    askerlikBorclanlmasi: 0,
-    askerlikNedir: 'sonra' as 'once' | 'sonra',
+    borclanlmisGun: 0,
+    madenGunu: 0,
     statular: ['4a'] as string[],
   });
-
-  const [hesaplananIlkIsGirisTarihi, setHesaplananIlkIsGirisTarihi] = useState<string>('');
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [showResults, setShowResults] = useState(true);
@@ -39,8 +37,9 @@ export default function Home() {
     if (form.priGunu < 0) newErrors.priGunu = 'Prim günü negatif olamaz';
     if (form.priGunu > 20000) newErrors.priGunu = 'Prim günü 20000 günü aşamaz';
 
-    if (form.askerlikBorclanlmasi < 0) newErrors.askerlikBorclanlmasi = 'Askerlik borçlanması negatif olamaz';
-    if (form.askerlikBorclanlmasi > 10000) newErrors.askerlikBorclanlmasi = 'Askerlik borçlanması 10000 günü aşamaz';
+    if (form.borclanlmisGun < 0) newErrors.borclanlmisGun = 'Borçlanma günü negatif olamaz';
+    if (form.madenGunu < 0) newErrors.madenGunu = 'Maden günü negatif olamaz';
+    if (form.madenGunu > 10000) newErrors.madenGunu = 'Maden günü 10000 günü aşamaz';
 
     if (form.statular.length === 0) newErrors.statular = 'En az bir statü seçilmelidir';
 
@@ -90,28 +89,19 @@ export default function Home() {
     }
   };
 
-  const handleAskerlikChange = (nedir: 'once' | 'sonra') => {
-    setForm({ ...form, askerlikNedir: nedir });
-  };
-
   const sonuc = useMemo(
     () =>
       hesaplaEmeklilik(
         form.dogumTarihi,
         form.ilkIsGirisTarihi,
         form.priGunu,
-        form.askerlikBorclanlmasi,
-        form.askerlikNedir,
+        form.borclanlmisGun,
+        form.madenGunu,
         form.cinsiyet,
         form.statular
       ),
     [form]
   );
-
-  // Update hesaplanan tarih state
-  useMemo(() => {
-    setHesaplananIlkIsGirisTarihi(sonuc.hesaplananIlkIsGirisTarihi || '');
-  }, [sonuc.hesaplananIlkIsGirisTarihi]);
 
   const formatTarih = (date: Date) => {
     return new Intl.DateTimeFormat('tr-TR', {
@@ -130,7 +120,7 @@ export default function Home() {
             Emeklilik Hesaplayıcı
           </h1>
           <p className="text-gray-600 text-sm md:text-base">
-            SGK emeklilik aylığı bağlama koşulları
+            MÜKTEZA tabanlı SGK emeklilik aylığı bağlama koşulları
           </p>
         </div>
 
@@ -140,11 +130,9 @@ export default function Home() {
           <div className="lg:col-span-1">
             <FormSection
               form={form}
-              hesaplananIlkIsGirisTarihi={hesaplananIlkIsGirisTarihi}
               errors={errors}
               onFormChange={handleFormChange}
               onCheckbox={handleCheckbox}
-              onAskerlikChange={handleAskerlikChange}
               onHesapla={handleHesapla}
             />
           </div>
