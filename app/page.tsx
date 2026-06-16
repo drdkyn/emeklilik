@@ -16,7 +16,8 @@ export default function Home() {
     askerlikNedir: 'sonra' as 'once' | 'sonra',
     ilkIsGirisOnceEngelliMi: false,
     statular: ['4a'] as string[],
-    malulBirimi: 'yok', // 'yok' | 'sk28/4' | 'sk28/5'
+    malulBirimi: 'yok',
+    malulDerece: '', // Yeni: Malüllük derecesi
   });
 
   const [hesaplananIlkIsGirisTarihi, setHesaplananIlkIsGirisTarihi] = useState<string>('');
@@ -95,7 +96,11 @@ export default function Home() {
   };
 
   const handleMalulBirimiChange = (birim: string) => {
-    setForm({ ...form, malulBirimi: birim });
+    setForm({ ...form, malulBirimi: birim, malulDerece: '' }); // Derece sıfırla
+  };
+
+  const handleMalulDereceChange = (derece: string) => {
+    setForm({ ...form, malulDerece: derece });
   };
 
   const sonuc = useMemo(
@@ -152,6 +157,7 @@ export default function Home() {
               onAskerlikChange={handleAskerlikChange}
               onEngelliChange={handleEngelliChange}
               onMalulBirimiChange={handleMalulBirimiChange}
+              onMalulDereceChange={handleMalulDereceChange}
               onHesapla={handleHesapla}
             />
           </div>

@@ -10,7 +10,8 @@ interface FormSectionProps {
     askerlikNedir: 'once' | 'sonra';
     ilkIsGirisOnceEngelliMi: boolean;
     statular: string[];
-    malulBirimi?: string; // 'yok' | 'sk28/4' | 'sk28/5'
+    malulBirimi?: string;
+    malulDerece?: string; // Yeni: malüllük derecesi
   };
   hesaplananIlkIsGirisTarihi?: string;
   errors: Record<string, string>;
@@ -19,6 +20,7 @@ interface FormSectionProps {
   onAskerlikChange: (nedir: 'once' | 'sonra') => void;
   onEngelliChange: (engelli: boolean) => void;
   onMalulBirimiChange: (birim: string) => void;
+  onMalulDereceChange?: (derece: string) => void; // Yeni handler
   onHesapla: () => void;
 }
 
@@ -31,6 +33,7 @@ export default function FormSection({
   onAskerlikChange,
   onEngelliChange,
   onMalulBirimiChange,
+  onMalulDereceChange,
   onHesapla,
 }: FormSectionProps) {
   return (
@@ -79,18 +82,68 @@ export default function FormSection({
 
           {/* 4/a, 4/b, 4/c için malüllük seçeneği */}
           {['4a', '4b', '4c'].includes(form.statular[0]) && (
-            <select
-              value={form.malulBirimi || 'yok'}
-              onChange={(e) => onMalulBirimiChange(e.target.value)}
-              className="input-field w-full"
-            >
-              <option value="yok">Malül değilim</option>
-              <option value="sk28/4">
-                {form.statular[0] === '4c' 
-                  ? '27.04.2005 öncesi Engelli'
-                  : '28/4 - İlk işe girişte malül'}
-              </option>
-            </select>
+            <>
+              <select
+                value={form.malulBirimi || 'yok'}
+                onChange={(e) => onMalulBirimiChange(e.target.value)}
+                className="input-field w-full mb-3"
+              >
+                <option value="yok">Malül değilim</option>
+                <option value="sk28/4">
+                  {form.statular[0] === '4c' 
+                    ? '27.04.2005 öncesi Engelli (Yaşsız)'
+                    : '28/4 - İlk işe girişte malül (Yaşsız)'}
+                </option>
+                <option value="sk28/5">
+                  {form.statular[0] === '4c'
+                    ? '27.04.2005 sonrası Engelli (Dereceli)'
+                    : '28/5 - İşe girdikten sonra malül (Dereceli)'}
+                </option>
+              </select>
+
+              {/* DERECE SEÇİMİ - SK28/5 seçiliyse göster */}
+              {form.malulBirimi === 'sk28/5' && (
+                <div className="mt-3 p-3 bg-yellow-50 border border-yellow-200 rounded">
+                  <label className="block text-sm font-medium text-gray-900 mb-2">
+                    Engelli Derece
+                    <span className="text-red-500 ml-1">*</span>
+                    <span className="text-gray-500 text-xs ml-1">(Çalışma gücü kayıp oranı)</span>
+                  </label>
+                  <select
+                    value={form.malulDerece || ''}
+                    onChange={(e) => onMalulDereceChange?.(e.target.value)}
+                    className="input-field w-full"
+                  >
+                    <option value="">-- Derece seçiniz --</option>
+                    {form.statular[0] === '4a' && (
+                      <>
+                        <option value="%40-%49">%40 - %49 (Hafif)</option>
+                        <option value="%50-%59">%50 - %59 (Orta)</option>
+                        <option value="%60-%69">%60 - %69 (Ağır)</option>
+                        <option value="%70+">%70 ve üzeri (Çok Ağır)</option>
+                      </>
+                    )}
+                    {form.statular[0] === '4b' && (
+                      <>
+                        <option value="%40-%49">%40 - %49 (Hafif)</option>
+                        <option value="%50-%59">%50 - %59 (Orta)</option>
+                        <option value="%60+">%60 ve üzeri (Ağır)</option>
+                      </>
+                    )}
+                    {form.statular[0] === '4c' && (
+                      <>
+                        <option value="%40-%49">%40 - %49 (Hafif)</option>
+                        <option value="%50-%59">%50 - %59 (Orta)</option>
+                        <option value="%60+">%60 ve üzeri (Ağır)</option>
+                      </>
+                    )}
+                  </select>
+                  <p className="text-xs text-yellow-700 mt-2">
+                    💡 Dereceniz Bölge Sağlık Kurulu raporunuzda belirtilmelidir.
+                  </p>
+                </div>
+              )}
+            </>
           )}
 
           {/* 2925 için */}
