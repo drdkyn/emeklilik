@@ -1,186 +1,198 @@
-// Malüllük/Engellilik Derecelerine Göre Şartlar
-// Excel Kaynakları: Kitap2.xlsx (4/a), Kitap1.xlsx (4/b, 4/c)
-// 
-// Derece arttıkça (ağırlık arttıkça) → Hizmet yılı şartı AZALIR
-// Mantık: Daha ağır malülük = daha az çalışma yapabilme = daha az hizmet yılı gerekli
+/**
+ * SK 28/4: İlk İşe Girişte Malül (Yaşsız)
+ * SK 28/5: İşe Girdikten Sonra Malül (Dereceli)
+ * 
+ * Giriş tarihi değişim tarihleri:
+ * - 08.09.1999 (EYT sınırı)
+ * - 01.05.2008 (Kanun değişikliği)
+ * - 27.04.2005 (4/c için)
+ */
 
 export interface MalullikSarti {
-  derece: string; // '%40-%49', '%50-%59', '%60+'
-  hizmetYili: number;
+  derece?: string;
+  hizmetYili?: number;
+  yasMin?: number;
   gunSayisi: number;
   aciklama?: string;
 }
 
-export interface MalullikTablosu {
-  statü: '4a' | '4b' | '4c';
-  tip: 'sk28/4' | 'sk28/5';
-  saritlar: MalullikSarti[];
-}
+// ============================================================================
+// SK 28/4 - İLK İŞE GİRİŞTE MALÜL (Giriş Tarihine Göre)
+// ============================================================================
 
-// ============= 4/a (SSK) - 5510 SK 28/5 =============
-// İşe girdikten sonra malül olan sigortalılar
-// Derece ↑ → Hizmet yılı ↓
-export const malullik4a: MalullikTablosu = {
-  statü: '4a',
-  tip: 'sk28/5',
-  saritlar: [
-    {
-      derece: '%40-%49',
-      hizmetYili: 20,
-      gunSayisi: 5075,
-      aciklama: 'Hafif malüllük - en çok hizmet yılı',
+export const SK284_4A = [
+  {
+    adi: '08.09.1999 öncesi (EYT)',
+    koşul: (girisGunu: Date) => girisGunu <= new Date(1999, 8, 8),
+    cinsiyet: {
+      kadin: { hizmetYili: 15, gun: 3600, yas: 58 },
+      erkek: { hizmetYili: 20, gun: 5000, yas: null },
     },
-    {
-      derece: '%50-%59',
-      hizmetYili: 15,
-      gunSayisi: 5300,
-      aciklama: 'Orta malüllük - daha az hizmet yılı',
-    },
-    {
-      derece: '%60+',
-      hizmetYili: 10,
-      gunSayisi: 5450,
-      aciklama: 'Ağır/çok ağır malüllük - en az hizmet yılı (10 yıl)',
-    },
-  ],
-};
-
-// ============= 4/b (Bağ-Kur) - 5510 SK 28/5 =============
-export const malullik4b: MalullikTablosu = {
-  statü: '4b',
-  tip: 'sk28/5',
-  saritlar: [
-    {
-      derece: '%40-%49',
-      hizmetYili: 15,
-      gunSayisi: 5400,
-      aciklama: 'Hafif - 15 yıl',
-    },
-    {
-      derece: '%50-%59',
-      hizmetYili: 12,
-      gunSayisi: 5400,
-      aciklama: 'Orta - 12 yıl',
-    },
-    {
-      derece: '%60+',
-      hizmetYili: 10,
-      gunSayisi: 3960,
-      aciklama: 'Ağır - 10 yıl (en az)',
-    },
-  ],
-};
-
-// ============= 4/c (Memur) - 5510 SK 28/5 =============
-export const malullik4c_oncesi: MalullikTablosu = {
-  statü: '4c',
-  tip: 'sk28/5',
-  saritlar: [
-    {
-      derece: '%40-%49',
-      hizmetYili: 20,
-      gunSayisi: 6480,
-      aciklama: 'Hafif - 20 yıl (27.04.2005 öncesi)',
-    },
-    {
-      derece: '%50-%59',
-      hizmetYili: 15,
-      gunSayisi: 5760,
-      aciklama: 'Orta - 15 yıl (27.04.2005 öncesi)',
-    },
-    {
-      derece: '%60+',
-      hizmetYili: 10,
-      gunSayisi: 5760,
-      aciklama: 'Ağır - 10 yıl (27.04.2005 öncesi)',
-    },
-  ],
-};
-
-export const malullik4c_sonrasi: MalullikTablosu = {
-  statü: '4c',
-  tip: 'sk28/5',
-  saritlar: [
-    {
-      derece: '%40-%49',
-      hizmetYili: 20,
-      gunSayisi: 6480,
-      aciklama: 'Hafif - 20 yıl (27.04.2005 sonrası)',
-    },
-    {
-      derece: '%50-%59',
-      hizmetYili: 15,
-      gunSayisi: 5760,
-      aciklama: 'Orta - 15 yıl (27.04.2005 sonrası)',
-    },
-    {
-      derece: '%60+',
-      hizmetYili: 10,
-      gunSayisi: 5760,
-      aciklama: 'Ağır - 10 yıl (27.04.2005 sonrası)',
-    },
-  ],
-};
-
-// ============= İLK İŞE GİRİŞTE MALÜL (SK 28/4) =============
-// Yaşsız, sabit şartlar (derece yoksul)
-export const sk28_4_saritlari = {
-  '4a': {
-    hizmetYili: 15,
-    gunSayisi: 3960,
-    aciklama: '4/a (SSK) - 5510 SK 28/4 (İlk işe girişte malül)',
   },
-  '4b': {
-    hizmetYili: 15,
-    gunSayisi: 3960,
-    aciklama: '4/b (Bağ-Kur) - 5510 SK 28/4 (İlk işe girişte malül)',
+  {
+    adi: '09.09.1999-30.04.2008 arası',
+    koşul: (girisGunu: Date) =>
+      girisGunu > new Date(1999, 8, 8) && girisGunu <= new Date(2008, 3, 30),
+    cinsiyet: {
+      kadin: { hizmetYili: 15, gun: 3960, yas: null },
+      erkek: { hizmetYili: 15, gun: 3960, yas: null },
+    },
   },
-  '4c': {
-    hizmetYili: 15,
-    gunSayisi: 3960,
-    aciklama: '4/c (Memur) - Engelli (27.04.2005 öncesi)',
+  {
+    adi: '01.05.2008 sonrası',
+    koşul: (girisGunu: Date) => girisGunu > new Date(2008, 3, 30),
+    cinsiyet: {
+      kadin: { hizmetYili: 15, gun: 3960, yas: null },
+      erkek: { hizmetYili: 15, gun: 3960, yas: null },
+    },
   },
+];
+
+export const SK284_4B = [
+  {
+    adi: '08.09.1999 öncesi (EYT)',
+    koşul: (girisGunu: Date) => girisGunu <= new Date(1999, 8, 8),
+    cinsiyet: {
+      kadin: { hizmetYili: 20, gun: 7200, yas: null },
+      erkek: { hizmetYili: 20, gun: 7200, yas: null },
+    },
+  },
+  {
+    adi: '09.09.1999-30.04.2008 arası',
+    koşul: (girisGunu: Date) =>
+      girisGunu > new Date(1999, 8, 8) && girisGunu <= new Date(2008, 3, 30),
+    cinsiyet: {
+      kadin: { hizmetYili: 15, gun: 5400, yas: 60 },
+      erkek: { hizmetYili: 15, gun: 5400, yas: 62 },
+    },
+  },
+  {
+    adi: '01.05.2008-31.12.2035',
+    koşul: (girisGunu: Date) =>
+      girisGunu > new Date(2008, 3, 30) && girisGunu <= new Date(2035, 11, 31),
+    cinsiyet: {
+      kadin: { hizmetYili: null, gun: 9000, yas: 58 },
+      erkek: { hizmetYili: null, gun: 9000, yas: 60 },
+    },
+  },
+  {
+    adi: '01.01.2036-31.12.2037',
+    koşul: (girisGunu: Date) =>
+      girisGunu >= new Date(2036, 0, 1) && girisGunu <= new Date(2037, 11, 31),
+    cinsiyet: {
+      kadin: { hizmetYili: null, gun: 9000, yas: 59 },
+      erkek: { hizmetYili: null, gun: 9000, yas: 61 },
+    },
+  },
+];
+
+export const SK284_4C = [
+  {
+    adi: '08.09.1999 öncesi (EYT)',
+    koşul: (girisGunu: Date) => girisGunu <= new Date(1999, 8, 8),
+    cinsiyet: {
+      kadin: { hizmetYili: 25, gun: 9000, yas: null },
+      erkek: { hizmetYili: 25, gun: 9000, yas: null },
+    },
+  },
+  {
+    adi: '09.09.1999-30.04.2008 arası',
+    koşul: (girisGunu: Date) =>
+      girisGunu > new Date(1999, 8, 8) && girisGunu <= new Date(2008, 3, 30),
+    cinsiyet: {
+      kadin: { hizmetYili: 25, gun: 9000, yas: 58 },
+      erkek: { hizmetYili: 25, gun: 9000, yas: 60 },
+    },
+  },
+  {
+    adi: '01.05.2008-31.12.2035',
+    koşul: (girisGunu: Date) =>
+      girisGunu > new Date(2008, 3, 30) && girisGunu <= new Date(2035, 11, 31),
+    cinsiyet: {
+      kadin: { hizmetYili: null, gun: 9000, yas: 58 },
+      erkek: { hizmetYili: null, gun: 9000, yas: 60 },
+    },
+  },
+  {
+    adi: '01.01.2036-31.12.2037',
+    koşul: (girisGunu: Date) =>
+      girisGunu >= new Date(2036, 0, 1) && girisGunu <= new Date(2037, 11, 31),
+    cinsiyet: {
+      kadin: { hizmetYili: null, gun: 9000, yas: 59 },
+      erkek: { hizmetYili: null, gun: 9000, yas: 61 },
+    },
+  },
+];
+
+// ============================================================================
+// SK 28/5 - İŞE GİRDİKTEN SONRA MALÜL (Derece-Bazlı)
+// ============================================================================
+
+export const SK285_4A = {
+  '%40-%49': { hizmetYili: 20, gun: 5075, yas: null },
+  '%50-%59': { hizmetYili: 15, gun: 5300, yas: null },
+  '%60+': { hizmetYili: 10, gun: 5450, yas: null },
 };
 
-export const getMalullikSaritlari = (
+export const SK285_4B = {
+  '%40-%49': { hizmetYili: 15, gun: 5400, yas: null },
+  '%50-%59': { hizmetYili: 12, gun: 5400, yas: null },
+  '%60+': { hizmetYili: 10, gun: 3960, yas: null },
+};
+
+export const SK285_4C = {
+  '%40-%49': { hizmetYili: 20, gun: 6480, yas: null },
+  '%50-%59': { hizmetYili: 15, gun: 5760, yas: null },
+  '%60+': { hizmetYili: 10, gun: 5760, yas: null },
+};
+
+// ============================================================================
+// HELPER FUNCTIONS
+// ============================================================================
+
+export const getSK284Sarti = (
   statü: string,
-  malulBirimi: string,
-  derece?: string
+  girisGunu: Date,
+  cinsiyet: 'erkek' | 'kadin'
 ) => {
-  if (malulBirimi === 'sk28/4') {
-    return sk28_4_saritlari[statü as keyof typeof sk28_4_saritlari];
-  }
+  const tablolar = {
+    '4a': SK284_4A,
+    '4b': SK284_4B,
+    '4c': SK284_4C,
+  };
 
-  if (malulBirimi === 'sk28/5') {
-    if (statü === '4a') {
-      return malullik4a.saritlar.find((s) => s.derece === derece);
-    } else if (statü === '4b') {
-      return malullik4b.saritlar.find((s) => s.derece === derece);
-    } else if (statü === '4c') {
-      return malullik4c_oncesi.saritlar.find((s) => s.derece === derece);
-    }
-  }
+  const tablo = tablolar[statü as keyof typeof tablolar];
+  if (!tablo) return null;
 
-  return null;
+  const uygunKural = tablo.find((r) => r.koşul(girisGunu));
+  if (!uygunKural) return null;
+
+  const cinsigetKural = uygunKural.cinsiyet[cinsiyet];
+  return {
+    hizmetYili: cinsigetKural.hizmetYili,
+    gun: cinsigetKural.gun,
+    yas: cinsigetKural.yas,
+    adi: uygunKural.adi,
+  };
 };
 
-export const getMalulDereceleri = (statü: string, malulBirimi: string) => {
-  if (malulBirimi === 'sk28/4') {
-    return [];
-  }
+export const getSK285Sarti = (statü: string, derece: string) => {
+  const tablolar = {
+    '4a': SK285_4A,
+    '4b': SK285_4B,
+    '4c': SK285_4C,
+  };
 
-  if (malulBirimi === 'sk28/5') {
-    if (statü === '4a') {
-      return malullik4a.saritlar.map((s) => ({ value: s.derece, label: s.derece }));
-    } else if (statü === '4b') {
-      return malullik4b.saritlar.map((s) => ({ value: s.derece, label: s.derece }));
-    } else if (statü === '4c') {
-      return malullik4c_oncesi.saritlar.map((s) => ({
-        value: s.derece,
-        label: s.derece,
-      }));
-    }
-  }
+  const tablo = tablolar[statü as keyof typeof tablolar];
+  if (!tablo) return null;
 
-  return [];
+  return tablo[derece as keyof typeof tablo] || null;
+};
+
+export const getMalulDereceleri = () => {
+  return [
+    { value: '%40-%49', label: '%40-%49 (Hafif)' },
+    { value: '%50-%59', label: '%50-%59 (Orta)' },
+    { value: '%60+', label: '%60+ (Ağır)' },
+  ];
 };
