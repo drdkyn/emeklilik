@@ -1,9 +1,36 @@
 import { calculateRetirementOptionsDB } from './calculator-db';
 
 export interface CalculationResult {
+  age: number;
+  serviceYears: number;
+  days: number;
+  results: Array<{
+    name: string;
+    type: string;
+    uygun: boolean;
+    kosullar: any[];
+  }>;
   normal: { uygun: boolean; kosullar: any[] }[];
   yastan: { uygun: boolean; kosullar: any[] }[];
   maluluk: { uygun: boolean; kosullar: any[] }[];
+}
+
+function calculateAge(birthDate: Date, referenceDate: Date): number {
+  let age = referenceDate.getFullYear() - birthDate.getFullYear();
+  const monthDiff = referenceDate.getMonth() - birthDate.getMonth();
+  if (monthDiff < 0 || (monthDiff === 0 && referenceDate.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  return age;
+}
+
+function calculateServiceYears(startDate: Date, referenceDate: Date): number {
+  let years = referenceDate.getFullYear() - startDate.getFullYear();
+  const monthDiff = referenceDate.getMonth() - startDate.getMonth();
+  if (monthDiff < 0 || (monthDiff === 0 && referenceDate.getDate() < startDate.getDate())) {
+    years--;
+  }
+  return years;
 }
 
 export function calculateRetirement(
@@ -23,6 +50,11 @@ export function calculateRetirement(
 
   const birthDate = parseDate(birthDateStr);
   const entryDate = parseDate(entryDateStr);
+  const today = new Date();
+
+  // Calculate metrics
+  const age = calculateAge(birthDate, today);
+  const serviceYears = calculateServiceYears(entryDate, today);
 
   // Call new calculator
   const results = calculateRetirementOptionsDB({
@@ -41,18 +73,24 @@ export function calculateRetirement(
   });
 
   // Organize by type
-  const result: CalculationResult = {
-    normal: [],
-    yastan: [],
-    maluluk: [],
-  };
+  const normal: any[] = [];
+  const yastan: any[] = [];
+  const maluluk: any[] = [];
 
   for (const res of results) {
     const item = { uygun: res.uygun, kosullar: res.kosullar };
-    if (res.type === 'normal') result.normal.push(item);
-    else if (res.type === 'age') result.yastan.push(item);
-    else if (res.type === 'disability') result.maluluk.push(item);
+    if (res.type === 'normal') normal.push(item);
+    else if (res.type === 'age') yastan.push(item);
+    else if (res.type === 'disability') maluluk.push(item);
   }
 
-  return result;
+  return {
+    age,
+    serviceYears,
+    days: premiumDays,
+    results,
+    normal,
+    yastan,
+    maluluk,
+  };
 }
