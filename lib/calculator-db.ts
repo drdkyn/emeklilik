@@ -1,6 +1,6 @@
-import db from './db';
+import rules from './rules.json';
 
-interface CalculatorInput {
+interface RetirementInput {
   status: '4a' | '4b' | '4c' | '2925';
   dogumTarihi: Date;
   cinsiyet: 'erkek' | 'kadin';
@@ -11,8 +11,8 @@ interface CalculatorInput {
   askerlikGunu: number;
   askerlikNedir: 'once' | 'sonra';
   malulukTuru: 'yok' | 'sk284' | 'sk285';
-  derece?: string | null;
-  malulTarihi?: Date | null;
+  derece: string | null;
+  malulTarihi: Date | null;
 }
 
 interface RetirementResult {
@@ -28,45 +28,25 @@ interface RetirementResult {
   notlar?: string;
 }
 
-interface RetirementRule {
-  id: number;
-  status: string;
-  type: string;
-  name: string;
-  dateFrom: string;
-  dateTo: string;
-  serviceYears: number | null;
-  days: number | null;
-  ageWoman: number | null;
-  ageMan: number | null;
-  degree: string | null;
-  notes: string | null;
-}
-
-const calculateAge = (birthDate: Date, refDate: Date = new Date()): number => {
-  let age = refDate.getFullYear() - birthDate.getFullYear();
-  const monthDiff = refDate.getMonth() - birthDate.getMonth();
-  if (monthDiff < 0 || (monthDiff === 0 && refDate.getDate() < birthDate.getDate())) {
+function calculateAge(birthDate: Date, referenceDate: Date): number {
+  let age = referenceDate.getFullYear() - birthDate.getFullYear();
+  const monthDiff = referenceDate.getMonth() - birthDate.getMonth();
+  if (monthDiff < 0 || (monthDiff === 0 && referenceDate.getDate() < birthDate.getDate())) {
     age--;
   }
   return age;
-};
+}
 
-const calculateServiceYears = (entryDate: Date, refDate: Date = new Date()): number => {
-  const years = refDate.getFullYear() - entryDate.getFullYear();
-  const monthDiff = refDate.getMonth() - entryDate.getMonth();
-  if (monthDiff < 0 || (monthDiff === 0 && refDate.getDate() < entryDate.getDate())) {
-    return Math.max(0, years - 1);
+function calculateServiceYears(startDate: Date, referenceDate: Date): number {
+  let years = referenceDate.getFullYear() - startDate.getFullYear();
+  const monthDiff = referenceDate.getMonth() - startDate.getMonth();
+  if (monthDiff < 0 || (monthDiff === 0 && referenceDate.getDate() < startDate.getDate())) {
+    years--;
   }
   return years;
-};
+}
 
-const parseDate = (dateStr: string): Date => {
-  const [year, month, day] = dateStr.split('-').map(Number);
-  return new Date(year, month - 1, day);
-};
-
-export function calculateRetirementOptionsDB(input: CalculatorInput): RetirementResult[] {
+export function calculateRetirementOptionsDB(input: RetirementInput): RetirementResult[] {
   const {
     status,
     dogumTarihi,
@@ -87,8 +67,8 @@ export function calculateRetirementOptionsDB(input: CalculatorInput): Retirement
   const serviceYears = calculateServiceYears(ilkGirisTarihi, today);
   
   // BORÇLANMA HESAPLAMASI
-  // - dahil: borçlanma zaten prim günü içinde → EKLEME
   // - hariç: borçlanma ayrı → prim gününe EKLE
+  // - dahil: borçlanma zaten prim günü içinde → EKLEME
   const totalDays =
     borçlanmaOption === 'hariç'
       ? priGunu + askerlikGunu + borçlanmaGunu
@@ -97,202 +77,194 @@ export function calculateRetirementOptionsDB(input: CalculatorInput): Retirement
   const results: RetirementResult[] = [];
 
   try {
-    // DB'den kuralları al
-    const query = `
-      SELECT * FROM retirement_rules
-      WHERE status = ?
-      ORDER BY type, dateFrom DESC
-    `;
-    
-    const statement = db.prepare(query);
-    const allRules = statement.all(status) as RetirementRule[];
-
-    // Kuralları türlere ayır
-    const normalRules = allRules.filter(r => r.type === 'normal');
-    const ageRules = allRules.filter(r => r.type === 'age');
-    let disabilityRules = allRules.filter(r => r.type === 'disability');
-
-    // NORMAL EMEKLİLİK
-    for (const rule of normalRules) {
-      const ruleFromDate = parseDate(rule.dateFrom);
-      const ruleToDate = parseDate(rule.dateTo);
-
-      if (ilkGirisTarihi >= ruleFromDate && ilkGirisTarihi <= ruleToDate) {
-        const meetsServiceYears =
-          rule.serviceYears === null || serviceYears >= rule.serviceYears;
-        const meetsDays = rule.days === null || totalDays >= rule.days;
-        const meetsAge =
-          rule.ageMan === null ||
-          (cinsiyet === 'erkek' ? age >= rule.ageMan : age >= (rule.ageWoman || 60));
-
-        const uygun = meetsServiceYears && meetsDays && meetsAge;
-
-        results.push({
-          name: `${rule.name}`,
-          type: 'normal',
-          uygun,
-          kosullar: [
-            ...(rule.serviceYears !== null
-              ? [
-                  {
-                    ad: 'Hizmet Yılı',
-                    gerekli: rule.serviceYears.toString(),
-                    sahip: serviceYears.toString(),
-                    basarili: meetsServiceYears,
-                  },
-                ]
-              : []),
-            ...(rule.days !== null
-              ? [
-                  {
-                    ad: 'Prim Günü',
-                    gerekli: rule.days.toString(),
-                    sahip: totalDays.toString(),
-                    basarili: meetsDays,
-                  },
-                ]
-              : []),
-            ...(rule.ageMan !== null
-              ? [
-                  {
-                    ad: 'Yaş',
-                    gerekli:
-                      cinsiyet === 'erkek'
-                        ? rule.ageMan.toString()
-                        : (rule.ageWoman || 60).toString(),
-                    sahip: age.toString(),
-                    basarili: meetsAge,
-                  },
-                ]
-              : []),
-          ],
-          notlar: rule.notes || undefined,
-        });
-      }
+    const statusRules = rules[status as keyof typeof rules];
+    if (!statusRules) {
+      throw new Error(`${status} statüsü kuralı bulunamadı`);
     }
 
-    // YAŞTAN EMEKLİLİK
-    for (const rule of ageRules) {
-      const ruleFromDate = parseDate(rule.dateFrom);
-      const ruleToDate = parseDate(rule.dateTo);
+    // NORMAL YAŞLILIK
+    if (statusRules.normal) {
+      const normalRules = statusRules.normal;
+      for (const rule of normalRules) {
+        const ruleDate = new Date();
+        const dateFrom = new Date(rule.dateFrom);
+        const dateTo = new Date(rule.dateTo);
+        
+        let uygun = true;
+        const kosullar = [];
 
-      if (ilkGirisTarihi >= ruleFromDate && ilkGirisTarihi <= ruleToDate) {
-        const meetsServiceYears =
-          rule.serviceYears === null || serviceYears >= rule.serviceYears;
-        const meetsDays = rule.days === null || totalDays >= rule.days;
-        const meetsAge =
-          rule.ageMan === null ||
-          (cinsiyet === 'erkek' ? age >= rule.ageMan : age >= (rule.ageWoman || 60));
-
-        const uygun = meetsServiceYears && meetsDays && meetsAge;
-
-        results.push({
-          name: `${rule.name}`,
-          type: 'age',
-          uygun,
-          kosullar: [
-            ...(rule.serviceYears !== null
-              ? [
-                  {
-                    ad: 'Hizmet Yılı',
-                    gerekli: rule.serviceYears.toString(),
-                    sahip: serviceYears.toString(),
-                    basarili: meetsServiceYears,
-                  },
-                ]
-              : []),
-            ...(rule.days !== null
-              ? [
-                  {
-                    ad: 'Prim Günü',
-                    gerekli: rule.days.toString(),
-                    sahip: totalDays.toString(),
-                    basarili: meetsDays,
-                  },
-                ]
-              : []),
-            ...(rule.ageMan !== null
-              ? [
-                  {
-                    ad: 'Yaş',
-                    gerekli:
-                      cinsiyet === 'erkek'
-                        ? rule.ageMan.toString()
-                        : (rule.ageWoman || 60).toString(),
-                    sahip: age.toString(),
-                    basarili: meetsAge,
-                  },
-                ]
-              : []),
-          ],
-          notlar: rule.notes || undefined,
+        // Gün şartı
+        const gunOk = totalDays >= rule.days;
+        kosullar.push({
+          ad: 'Gün',
+          gerekli: `${rule.days}`,
+          sahip: `${totalDays}`,
+          basarili: gunOk,
         });
-      }
-    }
+        uygun = uygun && gunOk;
 
-    // MALÜLLÜK EMEKLİLİĞİ
-    if (malulukTuru !== 'yok') {
-      // SK 28/5 için derece filtresi (SADECE %40-%49 ve %50-%59)
-      if (malulukTuru === 'sk285' && derece) {
-        disabilityRules = disabilityRules.filter(r => r.degree === derece);
-      }
-
-      for (const rule of disabilityRules) {
-        // SK 28/5 tarih filtresi
-        if (
-          malulukTuru === 'sk285' &&
-          malulTarihi &&
-          rule.dateFrom &&
-          rule.dateTo
-        ) {
-          const ruleFromDate = parseDate(rule.dateFrom);
-          const ruleToDate = parseDate(rule.dateTo);
-          if (malulTarihi < ruleFromDate || malulTarihi > ruleToDate) {
-            continue;
+        // Yaş şartı (varsa)
+        if (rule.ageWoman !== null || rule.ageMan !== null) {
+          const requiredAge = cinsiyet === 'kadin' ? rule.ageWoman : rule.ageMan;
+          if (requiredAge !== null) {
+            const yasOk = age >= requiredAge;
+            kosullar.push({
+              ad: 'Yaş',
+              gerekli: `${requiredAge}`,
+              sahip: `${age}`,
+              basarili: yasOk,
+            });
+            uygun = uygun && yasOk;
           }
         }
 
-        const meetsServiceYears =
-          rule.serviceYears === null || serviceYears >= rule.serviceYears;
-        const meetsDays = rule.days === null || totalDays >= rule.days;
-
-        const uygun = meetsServiceYears && meetsDays;
+        // Hizmet yılı şartı (varsa)
+        if (rule.serviceYears !== null) {
+          const hizmetOk = serviceYears >= rule.serviceYears;
+          kosullar.push({
+            ad: 'Hizmet Yılı',
+            gerekli: `${rule.serviceYears}`,
+            sahip: `${serviceYears}`,
+            basarili: hizmetOk,
+          });
+          uygun = uygun && hizmetOk;
+        }
 
         results.push({
           name: rule.name,
-          type: 'disability',
+          type: 'normal',
           uygun,
-          kosullar: [
-            ...(rule.serviceYears !== null
-              ? [
-                  {
-                    ad: 'Hizmet Yılı',
-                    gerekli: rule.serviceYears.toString(),
-                    sahip: serviceYears.toString(),
-                    basarili: meetsServiceYears,
-                  },
-                ]
-              : []),
-            ...(rule.days !== null
-              ? [
-                  {
-                    ad: 'Prim Günü',
-                    gerekli: rule.days.toString(),
-                    sahip: totalDays.toString(),
-                    basarili: meetsDays,
-                  },
-                ]
-              : []),
-            ...(rule.degree ? [{ ad: 'Derece', gerekli: rule.degree, sahip: derece || '-', basarili: true }] : []),
-          ],
-          notlar: rule.notes || undefined,
+          kosullar,
         });
+      }
+    }
+
+    // YAŞTAN EMEKLİLİK (KISMİ)
+    if (statusRules.age) {
+      const ageRules = statusRules.age;
+      for (const rule of ageRules) {
+        let uygun = true;
+        const kosullar = [];
+
+        const gunOk = totalDays >= rule.days;
+        kosullar.push({
+          ad: 'Gün',
+          gerekli: `${rule.days}`,
+          sahip: `${totalDays}`,
+          basarili: gunOk,
+        });
+        uygun = uygun && gunOk;
+
+        if (rule.ageWoman !== null || rule.ageMan !== null) {
+          const requiredAge = cinsiyet === 'kadin' ? rule.ageWoman : rule.ageMan;
+          if (requiredAge !== null) {
+            const yasOk = age >= requiredAge;
+            kosullar.push({
+              ad: 'Yaş',
+              gerekli: `${requiredAge}`,
+              sahip: `${age}`,
+              basarili: yasOk,
+            });
+            uygun = uygun && yasOk;
+          }
+        }
+
+        if (rule.serviceYears !== null) {
+          const hizmetOk = serviceYears >= rule.serviceYears;
+          kosullar.push({
+            ad: 'Hizmet Yılı',
+            gerekli: `${rule.serviceYears}`,
+            sahip: `${serviceYears}`,
+            basarili: hizmetOk,
+          });
+          uygun = uygun && hizmetOk;
+        }
+
+        results.push({
+          name: `${rule.name} (Kısmi)`,
+          type: 'age',
+          uygun,
+          kosullar,
+        });
+      }
+    }
+
+    // MALÜllÜK
+    if (malulukTuru !== 'yok' && statusRules.disability) {
+      const disabilityRules = statusRules.disability;
+      for (const rule of disabilityRules) {
+        // SK 28/4 için derece filtresi yok
+        if (malulukTuru === 'sk284' && rule.degree === null) {
+          let uygun = true;
+          const kosullar = [];
+
+          const gunOk = totalDays >= rule.days;
+          kosullar.push({
+            ad: 'Gün',
+            gerekli: `${rule.days}`,
+            sahip: `${totalDays}`,
+            basarili: gunOk,
+          });
+          uygun = uygun && gunOk;
+
+          if (rule.serviceYears !== null) {
+            const hizmetOk = serviceYears >= rule.serviceYears;
+            kosullar.push({
+              ad: 'Hizmet Yılı',
+              gerekli: `${rule.serviceYears}`,
+              sahip: `${serviceYears}`,
+              basarili: hizmetOk,
+            });
+            uygun = uygun && hizmetOk;
+          }
+
+          results.push({
+            name: rule.name,
+            type: 'disability',
+            uygun,
+            kosullar,
+            notlar: rule.note,
+          });
+        }
+
+        // SK 28/5 için derece eşleştir
+        if (malulukTuru === 'sk285' && rule.degree && derece === rule.degree) {
+          let uygun = true;
+          const kosullar = [];
+
+          const gunOk = totalDays >= rule.days;
+          kosullar.push({
+            ad: 'Gün',
+            gerekli: `${rule.days}`,
+            sahip: `${totalDays}`,
+            basarili: gunOk,
+          });
+          uygun = uygun && gunOk;
+
+          if (rule.serviceYears !== null) {
+            const hizmetOk = serviceYears >= rule.serviceYears;
+            kosullar.push({
+              ad: 'Hizmet Yılı',
+              gerekli: `${rule.serviceYears}`,
+              sahip: `${serviceYears}`,
+              basarili: hizmetOk,
+            });
+            uygun = uygun && hizmetOk;
+          }
+
+          results.push({
+            name: `${rule.name} - ${derece}`,
+            type: 'disability',
+            uygun,
+            kosullar,
+            notlar: rule.note,
+          });
+        }
       }
     }
 
     return results;
-  } catch (error) {
-    console.error('Database error:', error);
-    throw new Error('Emeklilik hesaplaması sırasında hata oluştu');
+  } catch (error: any) {
+    throw new Error(`Hesaplama hatası: ${error.message}`);
   }
 }

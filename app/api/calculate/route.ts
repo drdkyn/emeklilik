@@ -1,13 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { calculateRetirementOptionsDB } from '@/lib/calculator-db';
-import db, { initializeDatabase } from '@/lib/db';
-
-// Initialize DB on startup
-try {
-  initializeDatabase();
-} catch (e) {
-  // DB already initialized
-}
 
 export async function POST(request: NextRequest) {
   try {
