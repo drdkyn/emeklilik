@@ -133,6 +133,7 @@ export default function FormSection({
                   <>
                     <option value="sk28/4">Md.28/4 — İlk işe girişte malül %60 ve üstü</option>
                     <option value="sk28/5">Md.28/5 — Malül/Engelli (dereceli)</option>
+                    <option value="m25">Md.25 — İşe giriş sonrası +%60 malüllük (10 yıl/1800 gün)</option>
                   </>
                 )}
               </select>

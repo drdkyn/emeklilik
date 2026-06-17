@@ -372,7 +372,8 @@
         "serviceYears": 15,
         "days": 3600,
         "degree": null,
-        "note": "Son 3,5 yıl ve 1260 gün şartı aranır"
+        "note": "Son 3,5 yıl ve 1260 gün şartı aranır",
+        "malulukType": "sk284"
       },
       {
         "name": "SK 28/5 %60+ (Ağır) — 2004-2008 (4a)",
@@ -381,7 +382,8 @@
         "serviceYears": 10,
         "days": 1800,
         "degree": "%60+",
-        "note": "Bakıma muhtaç olanlarda 10 yıl hizmet şartı aranmaz"
+        "note": "Bakıma muhtaç olanlarda 10 yıl hizmet şartı aranmaz",
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %50–%59 — 2004-2008 (4a)",
@@ -390,7 +392,8 @@
         "serviceYears": 16,
         "days": 4320,
         "degree": "%50-%59",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %40–%49 — 2004-2008 (4a)",
@@ -399,7 +402,8 @@
         "serviceYears": 18,
         "days": 4680,
         "degree": "%40-%49",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/4 — 2008/Ekim-Aralık",
@@ -408,7 +412,8 @@
         "serviceYears": 15,
         "days": 3700,
         "degree": null,
-        "note": null
+        "note": null,
+        "malulukType": "sk284"
       },
       {
         "name": "SK 28/4 — 2009",
@@ -417,7 +422,8 @@
         "serviceYears": 15,
         "days": 3800,
         "degree": null,
-        "note": null
+        "note": null,
+        "malulukType": "sk284"
       },
       {
         "name": "SK 28/4 — 2010",
@@ -426,7 +432,8 @@
         "serviceYears": 15,
         "days": 3900,
         "degree": null,
-        "note": null
+        "note": null,
+        "malulukType": "sk284"
       },
       {
         "name": "SK 28/4 — 2011+",
@@ -435,10 +442,11 @@
         "serviceYears": 15,
         "days": 3960,
         "degree": null,
-        "note": null
+        "note": null,
+        "malulukType": "sk284"
       },
       {
-        "name": "SK 28/5 %60+ (Ağır)",
+        "name": "Md.25 — İşe giriş sonrası +%60 malüllük (10 yıl/1800 gün)",
         "dateFrom": "2008-10-01",
         "dateTo": "2099-12-31",
         "serviceYears": 10,
@@ -455,7 +463,8 @@
         "serviceYears": 16,
         "days": 3700,
         "degree": "%50-%59",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %50-%59 — 2009",
@@ -464,7 +473,8 @@
         "serviceYears": 16,
         "days": 3800,
         "degree": "%50-%59",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %50-%59 — 2010",
@@ -473,7 +483,8 @@
         "serviceYears": 16,
         "days": 3900,
         "degree": "%50-%59",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %50-%59 — 2011",
@@ -482,7 +493,8 @@
         "serviceYears": 16,
         "days": 4000,
         "degree": "%50-%59",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %50-%59 — 2012",
@@ -491,7 +503,8 @@
         "serviceYears": 16,
         "days": 4100,
         "degree": "%50-%59",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %50-%59 — 2013",
@@ -500,7 +513,8 @@
         "serviceYears": 16,
         "days": 4200,
         "degree": "%50-%59",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %50-%59 — 2014",
@@ -509,7 +523,8 @@
         "serviceYears": 16,
         "days": 4300,
         "degree": "%50-%59",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %50-%59 — 2015+",
@@ -518,7 +533,8 @@
         "serviceYears": 16,
         "days": 4320,
         "degree": "%50-%59",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %40-%49 — 2008-10/2008-12",
@@ -527,7 +543,8 @@
         "serviceYears": 18,
         "days": 4100,
         "degree": "%40-%49",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %40-%49 — 2009",
@@ -536,7 +553,8 @@
         "serviceYears": 18,
         "days": 4200,
         "degree": "%40-%49",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %40-%49 — 2010",
@@ -545,7 +563,8 @@
         "serviceYears": 18,
         "days": 4300,
         "degree": "%40-%49",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %40-%49 — 2011",
@@ -554,7 +573,8 @@
         "serviceYears": 18,
         "days": 4400,
         "degree": "%40-%49",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %40-%49 — 2012",
@@ -563,7 +583,8 @@
         "serviceYears": 18,
         "days": 4500,
         "degree": "%40-%49",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %40-%49 — 2013",
@@ -572,7 +593,8 @@
         "serviceYears": 18,
         "days": 4600,
         "degree": "%40-%49",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %40-%49 — 2014+",
@@ -581,7 +603,8 @@
         "serviceYears": 18,
         "days": 4680,
         "degree": "%40-%49",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       }
     ]
   },
@@ -904,7 +927,8 @@
         "serviceYears": 15,
         "days": 3960,
         "degree": null,
-        "note": "Son 3,5 yıl ve 1260 gün şartı aranır"
+        "note": "Son 3,5 yıl ve 1260 gün şartı aranır",
+        "malulukType": "sk284"
       },
       {
         "name": "SK 28/5 %60+ (Ağır) — 2004-2008 (4b)",
@@ -913,7 +937,8 @@
         "serviceYears": 10,
         "days": 1800,
         "degree": "%60+",
-        "note": "Bakıma muhtaç olanlarda 10 yıl hizmet şartı aranmaz"
+        "note": "Bakıma muhtaç olanlarda 10 yıl hizmet şartı aranmaz",
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %50–%59 — 2004-2008 (4b)",
@@ -922,7 +947,8 @@
         "serviceYears": 16,
         "days": 4320,
         "degree": "%50-%59",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %40–%49 — 2004-2008 (4b)",
@@ -931,10 +957,11 @@
         "serviceYears": 18,
         "days": 4680,
         "degree": "%40-%49",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
-        "name": "SK 28/5 %60+ (Ağır)",
+        "name": "Md.25 — İşe giriş sonrası +%60 malüllük (10 yıl/1800 gün)",
         "dateFrom": "2008-10-01",
         "dateTo": "2099-12-31",
         "serviceYears": 10,
@@ -951,7 +978,8 @@
         "serviceYears": 16,
         "days": 4320,
         "degree": "%50-%59",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %40-%49",
@@ -960,7 +988,8 @@
         "serviceYears": 18,
         "days": 4680,
         "degree": "%40-%49",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       }
     ]
   },
@@ -1257,7 +1286,8 @@
         "serviceYears": 15,
         "days": 3600,
         "degree": null,
-        "note": "Son 3,5 yıl ve 1260 gün şartı aranır"
+        "note": "Son 3,5 yıl ve 1260 gün şartı aranır",
+        "malulukType": "sk284"
       },
       {
         "name": "SK 28/4 — 2008/Ekim-Aralık",
@@ -1266,7 +1296,8 @@
         "serviceYears": 15,
         "days": 3700,
         "degree": null,
-        "note": null
+        "note": null,
+        "malulukType": "sk284"
       },
       {
         "name": "SK 28/4 — 2009",
@@ -1275,7 +1306,8 @@
         "serviceYears": 15,
         "days": 3800,
         "degree": null,
-        "note": null
+        "note": null,
+        "malulukType": "sk284"
       },
       {
         "name": "SK 28/4 — 2010",
@@ -1284,7 +1316,8 @@
         "serviceYears": 15,
         "days": 3900,
         "degree": null,
-        "note": null
+        "note": null,
+        "malulukType": "sk284"
       },
       {
         "name": "SK 28/4 — 2011+",
@@ -1293,10 +1326,11 @@
         "serviceYears": 15,
         "days": 3960,
         "degree": null,
-        "note": null
+        "note": null,
+        "malulukType": "sk284"
       },
       {
-        "name": "SK 28/5 %60+ (Ağır)",
+        "name": "Md.25 — İşe giriş sonrası +%60 malüllük (10 yıl/1800 gün)",
         "dateFrom": "2008-10-01",
         "dateTo": "2099-12-31",
         "serviceYears": 10,
@@ -1313,7 +1347,8 @@
         "serviceYears": 16,
         "days": 3700,
         "degree": "%50-%59",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %50-%59 — 2009",
@@ -1322,7 +1357,8 @@
         "serviceYears": 16,
         "days": 3800,
         "degree": "%50-%59",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %50-%59 — 2010",
@@ -1331,7 +1367,8 @@
         "serviceYears": 16,
         "days": 3900,
         "degree": "%50-%59",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %50-%59 — 2011",
@@ -1340,7 +1377,8 @@
         "serviceYears": 16,
         "days": 4000,
         "degree": "%50-%59",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %50-%59 — 2012",
@@ -1349,7 +1387,8 @@
         "serviceYears": 16,
         "days": 4100,
         "degree": "%50-%59",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %50-%59 — 2013",
@@ -1358,7 +1397,8 @@
         "serviceYears": 16,
         "days": 4200,
         "degree": "%50-%59",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %50-%59 — 2014",
@@ -1367,7 +1407,8 @@
         "serviceYears": 16,
         "days": 4300,
         "degree": "%50-%59",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %50-%59 — 2015+",
@@ -1376,7 +1417,8 @@
         "serviceYears": 16,
         "days": 4320,
         "degree": "%50-%59",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %40-%49 — 2008-10/2008-12",
@@ -1385,7 +1427,8 @@
         "serviceYears": 18,
         "days": 4100,
         "degree": "%40-%49",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %40-%49 — 2009",
@@ -1394,7 +1437,8 @@
         "serviceYears": 18,
         "days": 4200,
         "degree": "%40-%49",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %40-%49 — 2010",
@@ -1403,7 +1447,8 @@
         "serviceYears": 18,
         "days": 4300,
         "degree": "%40-%49",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %40-%49 — 2011",
@@ -1412,7 +1457,8 @@
         "serviceYears": 18,
         "days": 4400,
         "degree": "%40-%49",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %40-%49 — 2012",
@@ -1421,7 +1467,8 @@
         "serviceYears": 18,
         "days": 4500,
         "degree": "%40-%49",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %40-%49 — 2013",
@@ -1430,7 +1477,8 @@
         "serviceYears": 18,
         "days": 4600,
         "degree": "%40-%49",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       },
       {
         "name": "SK 28/5 %40-%49 — 2014+",
@@ -1439,7 +1487,8 @@
         "serviceYears": 18,
         "days": 4680,
         "degree": "%40-%49",
-        "note": null
+        "note": null,
+        "malulukType": "sk285"
       }
     ]
   }
