@@ -1105,6 +1105,197 @@
         "ageWoman": 58,
         "ageMan": 60
       }
+    ],
+    "disability": [
+      {
+        "name": "SK 28/4 — 2008/Ekim öncesi",
+        "dateFrom": "1976-09-08",
+        "dateTo": "2008-09-30",
+        "serviceYears": 15,
+        "days": 3600,
+        "degree": null,
+        "note": "Son 3,5 yıl ve 1260 gün şartı aranır"
+      },
+      {
+        "name": "SK 28/4 — 2008/Ekim-Aralık",
+        "dateFrom": "2008-10-01",
+        "dateTo": "2008-12-31",
+        "serviceYears": 15,
+        "days": 3700,
+        "degree": null,
+        "note": null
+      },
+      {
+        "name": "SK 28/4 — 2009",
+        "dateFrom": "2009-01-01",
+        "dateTo": "2009-12-31",
+        "serviceYears": 15,
+        "days": 3800,
+        "degree": null,
+        "note": null
+      },
+      {
+        "name": "SK 28/4 — 2010",
+        "dateFrom": "2010-01-01",
+        "dateTo": "2010-12-31",
+        "serviceYears": 15,
+        "days": 3900,
+        "degree": null,
+        "note": null
+      },
+      {
+        "name": "SK 28/4 — 2011+",
+        "dateFrom": "2011-01-01",
+        "dateTo": "2099-12-31",
+        "serviceYears": 15,
+        "days": 3960,
+        "degree": null,
+        "note": null
+      },
+      {
+        "name": "SK 28/5 %60+ (Ağır)",
+        "dateFrom": "2008-10-01",
+        "dateTo": "2099-12-31",
+        "serviceYears": 10,
+        "days": 1800,
+        "degree": "%60+",
+        "note": "Bakıma muhtaç olanlarda 10 yıl hizmet şartı aranmaz"
+      },
+      {
+        "name": "SK 28/5 %50-%59 — 2008-10/2008-12",
+        "dateFrom": "2008-10-01",
+        "dateTo": "2008-12-31",
+        "serviceYears": 16,
+        "days": 3700,
+        "degree": "%50-%59",
+        "note": null
+      },
+      {
+        "name": "SK 28/5 %50-%59 — 2009",
+        "dateFrom": "2009-01-01",
+        "dateTo": "2009-12-31",
+        "serviceYears": 16,
+        "days": 3800,
+        "degree": "%50-%59",
+        "note": null
+      },
+      {
+        "name": "SK 28/5 %50-%59 — 2010",
+        "dateFrom": "2010-01-01",
+        "dateTo": "2010-12-31",
+        "serviceYears": 16,
+        "days": 3900,
+        "degree": "%50-%59",
+        "note": null
+      },
+      {
+        "name": "SK 28/5 %50-%59 — 2011",
+        "dateFrom": "2011-01-01",
+        "dateTo": "2011-12-31",
+        "serviceYears": 16,
+        "days": 4000,
+        "degree": "%50-%59",
+        "note": null
+      },
+      {
+        "name": "SK 28/5 %50-%59 — 2012",
+        "dateFrom": "2012-01-01",
+        "dateTo": "2012-12-31",
+        "serviceYears": 16,
+        "days": 4100,
+        "degree": "%50-%59",
+        "note": null
+      },
+      {
+        "name": "SK 28/5 %50-%59 — 2013",
+        "dateFrom": "2013-01-01",
+        "dateTo": "2013-12-31",
+        "serviceYears": 16,
+        "days": 4200,
+        "degree": "%50-%59",
+        "note": null
+      },
+      {
+        "name": "SK 28/5 %50-%59 — 2014",
+        "dateFrom": "2014-01-01",
+        "dateTo": "2014-12-31",
+        "serviceYears": 16,
+        "days": 4300,
+        "degree": "%50-%59",
+        "note": null
+      },
+      {
+        "name": "SK 28/5 %50-%59 — 2015+",
+        "dateFrom": "2015-01-01",
+        "dateTo": "2099-12-31",
+        "serviceYears": 16,
+        "days": 4320,
+        "degree": "%50-%59",
+        "note": null
+      },
+      {
+        "name": "SK 28/5 %40-%49 — 2008-10/2008-12",
+        "dateFrom": "2008-10-01",
+        "dateTo": "2008-12-31",
+        "serviceYears": 18,
+        "days": 4100,
+        "degree": "%40-%49",
+        "note": null
+      },
+      {
+        "name": "SK 28/5 %40-%49 — 2009",
+        "dateFrom": "2009-01-01",
+        "dateTo": "2009-12-31",
+        "serviceYears": 18,
+        "days": 4200,
+        "degree": "%40-%49",
+        "note": null
+      },
+      {
+        "name": "SK 28/5 %40-%49 — 2010",
+        "dateFrom": "2010-01-01",
+        "dateTo": "2010-12-31",
+        "serviceYears": 18,
+        "days": 4300,
+        "degree": "%40-%49",
+        "note": null
+      },
+      {
+        "name": "SK 28/5 %40-%49 — 2011",
+        "dateFrom": "2011-01-01",
+        "dateTo": "2011-12-31",
+        "serviceYears": 18,
+        "days": 4400,
+        "degree": "%40-%49",
+        "note": null
+      },
+      {
+        "name": "SK 28/5 %40-%49 — 2012",
+        "dateFrom": "2012-01-01",
+        "dateTo": "2012-12-31",
+        "serviceYears": 18,
+        "days": 4500,
+        "degree": "%40-%49",
+        "note": null
+      },
+      {
+        "name": "SK 28/5 %40-%49 — 2013",
+        "dateFrom": "2013-01-01",
+        "dateTo": "2013-12-31",
+        "serviceYears": 18,
+        "days": 4600,
+        "degree": "%40-%49",
+        "note": null
+      },
+      {
+        "name": "SK 28/5 %40-%49 — 2014+",
+        "dateFrom": "2014-01-01",
+        "dateTo": "2099-12-31",
+        "serviceYears": 18,
+        "days": 4680,
+        "degree": "%40-%49",
+        "note": null
+      }
     ]
   }
 }

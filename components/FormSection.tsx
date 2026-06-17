@@ -72,7 +72,7 @@ export default function FormSection({
             Malüllük / Engellilik <span className="text-gray-400 font-normal">(5510 SK Md.28)</span>
           </p>
 
-          {['4a', '4b', '4c'].includes(statu) ? (
+          {['4a', '4b', '4c', '2925'].includes(statu) ? (
             <>
               <select value={form.malulBirimi || 'yok'}
                 onChange={(e) => onMalulBirimiChange(e.target.value)}
@@ -113,9 +113,7 @@ export default function FormSection({
                 </div>
               )}
             </>
-          ) : (
-            <p className="text-xs text-gray-500">2925 statüsünde malüllük koşulu uygulanmaz.</p>
-          )}
+          ) : null}
         </div>
       )}
 
