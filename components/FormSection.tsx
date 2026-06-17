@@ -109,11 +109,12 @@ export default function FormSection({
                 className="input-field mb-2">
                 <option value="yok">— Malül değilim —</option>
 
-                {/* 4c / 5434: işe giriş öncesi yaşsız + 5434 adi malullük */}
+                {/* 4c / 5434: işe giriş öncesi yaşsız + işe giriş öncesi +%40 + 5434 adi malullük */}
                 {statu === '4c' && lawType === '5434' && (
                   <>
                     <option value="sk28/4">İşe girmeden önce Engelli (yaşsız)</option>
-                    <option value="sk28/5">İşe girdikten sonra Engelli (dereceli — +%40/%50-59/%40-49)</option>
+                    <option value="sk28/4-40">İşe girmeden önce Engelli (+%40)</option>
+                    <option value="sk28/5">İşe girdikten sonra Engelli (dereceli — %50-59/%40-49)</option>
                     <option value="adiMalullük">5434 Adi Malullük (657 m.105 — 10 yıl/3600 gün)</option>
                   </>
                 )}
@@ -144,7 +145,6 @@ export default function FormSection({
                     <option value="">— Engel derecesi seçin —</option>
                     {statu === '4c' && lawType === '5434' ? (
                       <>
-                        <option value="+%40">+%40 (İşe Giriş Öncesi)</option>
                         <option value="%50-%59">%50–%59 (Orta)</option>
                         <option value="%40-%49">%40–%49 (Hafif)</option>
                       </>

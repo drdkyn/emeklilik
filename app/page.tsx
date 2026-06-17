@@ -165,6 +165,7 @@ export default function Home() {
     const malulMap: Record<string, 'yok' | 'sk284' | 'sk285' | 'm25' | 'adiMalullük'> = {
       'yok': 'yok',
       'sk28/4': 'sk284',
+      'sk28/4-40': 'sk284', // +%40 de SK28/4 kapsamında
       'sk28/5': 'sk285',
       'm25': 'm25',
       'adiMalullük': 'adiMalullük',
