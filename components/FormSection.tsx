@@ -197,9 +197,16 @@ export default function FormSection({
       <div className="grid grid-cols-2 gap-2 mb-3">
         <div>
           <label className="label">Doğum Tarihi <span className="text-red-500">*</span></label>
-          <input type="date" name="dogumTarihi" value={form.dogumTarihi}
+          <input 
+            type="text" 
+            name="dogumTarihi" 
+            value={form.dogumTarihi}
             onChange={onFormChange}
-            className={`input-field ${errors.dogumTarihi ? 'border-red-500' : ''}`} />
+            placeholder="GG.AA.YYYY"
+            inputMode="numeric"
+            pattern="\d{2}\.\d{2}\.\d{4}"
+            className={`input-field ${errors.dogumTarihi ? 'border-red-500' : ''}`} 
+          />
           {errors.dogumTarihi && <p className="text-xs text-red-600 mt-0.5">{errors.dogumTarihi}</p>}
         </div>
         <div>
@@ -213,9 +220,16 @@ export default function FormSection({
 
       <div className="mb-3">
         <label className="label">İlk İşe Giriş Tarihi <span className="text-red-500">*</span></label>
-        <input type="date" name="ilkIsGirisTarihi" value={form.ilkIsGirisTarihi}
+        <input 
+          type="text" 
+          name="ilkIsGirisTarihi" 
+          value={form.ilkIsGirisTarihi}
           onChange={onFormChange}
-          className={`input-field ${errors.ilkIsGirisTarihi ? 'border-red-500' : ''}`} />
+          placeholder="GG.AA.YYYY"
+          inputMode="numeric"
+          pattern="\d{2}\.\d{2}\.\d{4}"
+          className={`input-field ${errors.ilkIsGirisTarihi ? 'border-red-500' : ''}`} 
+        />
         {errors.ilkIsGirisTarihi && <p className="text-xs text-red-600 mt-0.5">{errors.ilkIsGirisTarihi}</p>}
         {hesaplananIlkIsGirisTarihi && (
           <p className="text-xs text-green-700 mt-1 bg-green-50 px-2 py-1 rounded">

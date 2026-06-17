@@ -38,8 +38,16 @@ interface FormState {
 }
 
 function parseDate(str: string): Date {
-  const [y, m, d] = str.split('-').map(Number);
-  return new Date(y, m - 1, d);
+  // GG.AA.YYYY veya YYYY-MM-DD formatlarını kabul et
+  if (str.includes('.')) {
+    // GG.AA.YYYY formatı
+    const [d, m, y] = str.split('.').map(Number);
+    return new Date(y, m - 1, d);
+  } else {
+    // YYYY-MM-DD formatı
+    const [y, m, d] = str.split('-').map(Number);
+    return new Date(y, m - 1, d);
+  }
 }
 
 function formatDate(date: Date): string {
@@ -151,8 +159,15 @@ export default function Home() {
 
   const handleHesapla = () => {
     const errs: Record<string, string> = {};
+    
+    // Tarih format kontrolü: GG.AA.YYYY veya YYYY-MM-DD
+    const dateFormatRegex = /^(\d{2}\.\d{2}\.\d{4}|\d{4}-\d{2}-\d{2})$/;
+    
     if (!form.dogumTarihi) errs.dogumTarihi = 'Doğum tarihi zorunludur';
+    else if (!dateFormatRegex.test(form.dogumTarihi)) errs.dogumTarihi = 'Format: GG.AA.YYYY (örn: 25.01.1990)';
+    
     if (!form.ilkIsGirisTarihi) errs.ilkIsGirisTarihi = 'İlk işe giriş tarihi zorunludur';
+    else if (!dateFormatRegex.test(form.ilkIsGirisTarihi)) errs.ilkIsGirisTarihi = 'Format: GG.AA.YYYY (örn: 01.01.2004)';
     if (form.statular.length === 0) errs.statular = 'Sigortalılık statüsü seçiniz';
     if (form.priGunu <= 0) errs.priGunu = 'Prim günü zorunludur (0 olamaz)';
     if (form.malulBirimi === 'sk28/5' && !form.malulDerece) errs.malulDerece = 'Engelli derece seçiniz';
