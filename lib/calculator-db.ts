@@ -54,7 +54,7 @@ export function calculateRetirementOptionsDB(input: RetirementInput): Retirement
   const today = new Date();
   const age = calculateAge(dogumTarihi, today);
   
-  // ÖNEMLİ: Askerlik işe girmeden ÖNCE olmuşsa, işe giriş tarihini öne çek (borçlanma günü kadar geri)
+  // ÖNEMLİ: Askerlik işe girmeden ÖNCE olmuşsa, borçlanma nedeniyle işe giriş tarihini öne çek
   let effectiveStartDate = new Date(ilkGirisTarihi);
   if (askerlikNedir === 'once' && askerlikGunu > 0) {
     effectiveStartDate = new Date(ilkGirisTarihi.getTime() - askerlikGunu * 24 * 60 * 60 * 1000);
