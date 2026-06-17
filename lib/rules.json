@@ -1053,6 +1053,26 @@
         "note": "Engellikleri nedeniyle göreve alınanlar, yaş şartı aranmaz"
       },
       {
+        "name": "5434 — Orta Düzey (%50-%59) — 2004-2005",
+        "dateFrom": "2004-01-01",
+        "dateTo": "2005-04-27",
+        "serviceYears": 16,
+        "days": 5760,
+        "degree": "%50-%59",
+        "lawType": "5434",
+        "note": "5434 Sayılı Kanun — 2004-2005 dönemi"
+      },
+      {
+        "name": "5434 — Hafif Düzey (%40-%49) — 2004-2005",
+        "dateFrom": "2004-01-01",
+        "dateTo": "2005-04-27",
+        "serviceYears": 18,
+        "days": 6480,
+        "degree": "%40-%49",
+        "lawType": "5434",
+        "note": "5434 Sayılı Kanun — 2004-2005 dönemi"
+      },
+      {
         "name": "5434 — Hafif Düzey (+%40, İşe Giriş Öncesi)",
         "dateFrom": "2005-04-28",
         "dateTo": "2099-12-31",
