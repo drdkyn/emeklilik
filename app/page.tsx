@@ -81,6 +81,8 @@ export default function Home() {
       ...prev,
       [name]: name === 'priGunu' || name === 'askerlikBorclanlmasi' ? Number(value) : value,
     }));
+    // Form değiştiğinde eski sonuçları sil, ki yeniden hesaplanmayan eski sonuçlar görünmesin
+    setSonuclar(null);
   };
 
   const handleCheckbox = (statu: string) => {
@@ -89,26 +91,40 @@ export default function Home() {
     // bu da kullanıcı bir statüde oran seçip başka bir statüyü denediğinde
     // malüllük hesaplamasının sessizce devre dışı kalmasına ve sonuç
     // ekranında disability kartının hiç görünmemesine sebep oluyordu.
+    // ANCAK: Statü değiştiğinde sonuçları temizlemeli, ki eski hesaplama gösterilmesin
     setForm(prev => ({ ...prev, statular: [statu] }));
+    setSonuclar(null);
   };
 
-  const handleAskerlikChange = (nedir: 'once' | 'sonra') =>
+  const handleAskerlikChange = (nedir: 'once' | 'sonra') => {
     setForm(prev => ({ ...prev, askerlikNedir: nedir }));
+    setSonuclar(null);
+  };
 
-  const handleLawTypeChange = (lawType: '5434' | '5510') =>
+  const handleLawTypeChange = (lawType: '5434' | '5510') => {
     setForm(prev => ({ ...prev, lawType, malulBirimi: 'yok', malulDerece: '' }));
+    setSonuclar(null);
+  };
 
-  const handleMalulBirimiChange = (birim: string) =>
+  const handleMalulBirimiChange = (birim: string) => {
     setForm(prev => ({ ...prev, malulBirimi: birim, malulDerece: '' }));
+    setSonuclar(null);
+  };
 
-  const handleMalulDereceChange = (derece: string) =>
+  const handleMalulDereceChange = (derece: string) => {
     setForm(prev => ({ ...prev, malulDerece: derece }));
+    setSonuclar(null);
+  };
 
-  const handleBagimaMuhtacChange = (value: boolean) =>
+  const handleBagimaMuhtacChange = (value: boolean) => {
     setForm(prev => ({ ...prev, bagimaMuhtac: value }));
+    setSonuclar(null);
+  };
 
-  const handleBorclanmaDahilChange = (dahil: boolean) =>
+  const handleBorclanmaDahilChange = (dahil: boolean) => {
     setForm(prev => ({ ...prev, borçlanmaDahil: dahil }));
+    setSonuclar(null);
+  };
 
   const handleTemizle = () => {
     setForm({
@@ -153,22 +169,68 @@ export default function Home() {
     };
     const malulukTuru = malulMap[form.malulBirimi || 'yok'] || 'yok';
 
-    const results = calculateRetirementOptionsDB({
-      status,
-      dogumTarihi,
-      cinsiyet: form.cinsiyet,
-      ilkGirisTarihi,
-      priGunu: form.priGunu,
-      borçlanmaOption: form.borçlanmaDahil ? 'dahil' : 'hariç',
-      borçlanmaGunu: 0,
-      askerlikGunu: form.askerlikBorclanlmasi,
-      askerlikNedir: form.askerlikNedir,
-      malulukTuru,
-      derece: form.malulDerece || null,
-      malulTarihi: null,
-      bagimaMuhtac: form.bagimaMuhtac,
-      lawType: status === '4c' ? form.lawType : undefined,
-    });
+    // ÖNEMLİ: 4c statüsünde malülük seçilmişse, TARAFINDAN her iki lawType (5434 ve 5510) için
+    // hesaplama yap ve sonuçları birleştir. Böylece kullanıcı tüm seçenekleri görür.
+    let results: HesapSonucu[] = [];
+    
+    if (status === '4c' && malulukTuru !== 'yok') {
+      // 4c/5434 kombinasyonu
+      const results5434 = calculateRetirementOptionsDB({
+        status,
+        dogumTarihi,
+        cinsiyet: form.cinsiyet,
+        ilkGirisTarihi,
+        priGunu: form.priGunu,
+        borçlanmaOption: form.borçlanmaDahil ? 'dahil' : 'hariç',
+        borçlanmaGunu: 0,
+        askerlikGunu: form.askerlikBorclanlmasi,
+        askerlikNedir: form.askerlikNedir,
+        malulukTuru,
+        derece: form.malulDerece || null,
+        malulTarihi: null,
+        bagimaMuhtac: form.bagimaMuhtac,
+        lawType: '5434',
+      });
+      
+      // 4c/5510 kombinasyonu
+      const results5510 = calculateRetirementOptionsDB({
+        status,
+        dogumTarihi,
+        cinsiyet: form.cinsiyet,
+        ilkGirisTarihi,
+        priGunu: form.priGunu,
+        borçlanmaOption: form.borçlanmaDahil ? 'dahil' : 'hariç',
+        borçlanmaGunu: 0,
+        askerlikGunu: form.askerlikBorclanlmasi,
+        askerlikNedir: form.askerlikNedir,
+        malulukTuru,
+        derece: form.malulDerece || null,
+        malulTarihi: null,
+        bagimaMuhtac: form.bagimaMuhtac,
+        lawType: '5510',
+      });
+      
+      // Sonuçları birleştir: disability tipindekiler + normal + age (5434'ten), sonra 5510'dan da ekle
+      results = [...results5434, ...results5510];
+    } else {
+      // 4c değil veya malülük seçilmemişse normal şekilde hesapla
+      results = calculateRetirementOptionsDB({
+        status,
+        dogumTarihi,
+        cinsiyet: form.cinsiyet,
+        ilkGirisTarihi,
+        priGunu: form.priGunu,
+        borçlanmaOption: form.borçlanmaDahil ? 'dahil' : 'hariç',
+        borçlanmaGunu: 0,
+        askerlikGunu: form.askerlikBorclanlmasi,
+        askerlikNedir: form.askerlikNedir,
+        malulukTuru,
+        derece: form.malulDerece || null,
+        malulTarihi: null,
+        bagimaMuhtac: form.bagimaMuhtac,
+        lawType: status === '4c' ? form.lawType : undefined,
+      });
+    }
 
     const today = new Date();
     let yas = today.getFullYear() - dogumTarihi.getFullYear();

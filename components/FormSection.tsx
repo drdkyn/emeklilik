@@ -110,8 +110,8 @@ export default function FormSection({
                 {/* 4c / 5434: işe giriş öncesi yaşsız + 5434 adi malullük */}
                 {statu === '4c' && lawType === '5434' && (
                   <>
-                    <option value="sk28/4">27.04.2005 öncesi Engelli (yaşsız)</option>
-                    <option value="sk28/5">27.04.2005 sonrası Engelli (dereceli — +%40/%50-59/%40-49)</option>
+                    <option value="sk28/4">İşe girmeden önce Engelli (yaşsız)</option>
+                    <option value="sk28/5">İşe girmeden sonra Engelli (dereceli — +%40/%50-59/%40-49)</option>
                     <option value="adiMalullük">5434 Adi Malullük (657 m.105 — 10 yıl/3600 gün)</option>
                   </>
                 )}
