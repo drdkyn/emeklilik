@@ -99,7 +99,7 @@ export default function FormSection({
       {statu && (
         <div className="section-box bg-purple-50 border-purple-200 mb-3">
           <p className="text-xs font-semibold text-purple-800 mb-2">
-            Malüllük / Engellilik <span className="text-gray-400 font-normal">(5510 SK Md.28)</span>
+            Malül/Engelli (dereceli)
           </p>
 
           {['4a', '4b', '4c', '2925'].includes(statu) ? (
