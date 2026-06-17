@@ -1104,7 +1104,8 @@
         "days": 3600,
         "degree": null,
         "lawType": "5434",
-        "note": "Engellikleri nedeniyle göreve alınanlar, yaş şartı aranmaz"
+        "note": "Engellikleri nedeniyle göreve alınanlar, yaş şartı aranmaz",
+        "malulukType": "sk284"
       },
       {
         "name": "5434 — Orta Düzey (%50-%59) — 2004-2005",
@@ -1114,7 +1115,8 @@
         "days": 5760,
         "degree": "%50-%59",
         "lawType": "5434",
-        "note": "5434 Sayılı Kanun — 2004-2005 dönemi"
+        "note": "5434 Sayılı Kanun — 2004-2005 dönemi",
+        "malulukType": "sk285"
       },
       {
         "name": "5434 — Hafif Düzey (%40-%49) — 2004-2005",
@@ -1124,7 +1126,8 @@
         "days": 6480,
         "degree": "%40-%49",
         "lawType": "5434",
-        "note": "5434 Sayılı Kanun — 2004-2005 dönemi"
+        "note": "5434 Sayılı Kanun — 2004-2005 dönemi",
+        "malulukType": "sk285"
       },
       {
         "name": "5434 — Hafif Düzey (+%40, İşe Giriş Öncesi)",
@@ -1134,7 +1137,8 @@
         "days": 5400,
         "degree": "+%40",
         "lawType": "5434",
-        "note": "5434 Sayılı Kanun — İşe giriş öncesi +%40 çalışma gücü kaybı"
+        "note": "5434 Sayılı Kanun — İşe giriş öncesi +%40 çalışma gücü kaybı",
+        "malulukType": "sk284"
       },
       {
         "name": "5434 — Orta Düzey (%50-%59)",
@@ -1144,7 +1148,8 @@
         "days": 5760,
         "degree": "%50-%59",
         "lawType": "5434",
-        "note": "5434 Sayılı Kanun"
+        "note": "5434 Sayılı Kanun",
+        "malulukType": "sk285"
       },
       {
         "name": "5434 — Hafif Düzey (%40-%49)",
@@ -1154,7 +1159,8 @@
         "days": 6480,
         "degree": "%40-%49",
         "lawType": "5434",
-        "note": "5434 Sayılı Kanun"
+        "note": "5434 Sayılı Kanun",
+        "malulukType": "sk285"
       },
       {
         "name": "5434 Özgü Malulen Emeklilik — Adi Malullük (657 m.105 / 5434 m.53-54)",
@@ -1175,7 +1181,8 @@
         "days": 3960,
         "degree": null,
         "lawType": "5510",
-        "note": "5510 Sayılı Kanun M28/4 — 4/1-c (Memur)"
+        "note": "5510 Sayılı Kanun M28/4 — 4/1-c (Memur)",
+        "malulukType": "sk284"
       },
       {
         "name": "5510 M28/5 — Orta Düzey (%50-%59)",
@@ -1185,7 +1192,8 @@
         "days": 4320,
         "degree": "%50-%59",
         "lawType": "5510",
-        "note": "5510 Sayılı Kanun M28/5 — 4/1-c (Memur)"
+        "note": "5510 Sayılı Kanun M28/5 — 4/1-c (Memur)",
+        "malulukType": "sk285"
       },
       {
         "name": "5510 M28/5 — Hafif Düzey (%40-%49)",
@@ -1195,7 +1203,8 @@
         "days": 4680,
         "degree": "%40-%49",
         "lawType": "5510",
-        "note": "5510 Sayılı Kanun M28/5 — 4/1-c (Memur)"
+        "note": "5510 Sayılı Kanun M28/5 — 4/1-c (Memur)",
+        "malulukType": "sk285"
       },
       {
         "name": "Malulen Emeklilik — İşe Giriş Sonrası +%60 (5510 M25)",
