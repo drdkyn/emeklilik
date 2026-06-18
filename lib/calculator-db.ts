@@ -174,28 +174,5 @@ export function calculateRetirementOptionsDB(input: RetirementInput): Retirement
     }
   }
 
-  // ---- MALÜLLÜK ----
-  if (statusRules.disability) {
-    for (const rule of statusRules.disability) {
-      if (!isGecerli(rule)) continue;
-      
-      // 4a'da 18 yaş altı girişler için her kuralda hizmet yılını 18 yaştan hesapla
-      let effectiveServiceYears = undefined;
-      if (status === '4a') {
-        const ageAt18 = new Date(dogumTarihi);
-        ageAt18.setFullYear(ageAt18.getFullYear() + 18);
-        
-        if (ilkGirisTarihi < ageAt18) {
-          // 18 yaşından önce girmişse, 18 yaştan hizmet sayıldı
-          effectiveServiceYears = calculateServiceYears(ageAt18, today);
-        }
-      }
-      
-      const { kosullar, uygun } = buildKosullar(rule, effectiveServiceYears);
-      results.push({ name: rule.name, type: 'disability', uygun, kosullar, notlar: rule.notes });
-      break; // giriş tarihine uyan ilk kural
-    }
-  }
-
   return results;
 }

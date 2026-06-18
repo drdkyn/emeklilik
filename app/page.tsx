@@ -210,13 +210,12 @@ export default function Home() {
     }, 100);
   };
 
-  // Sonuçları sırala: Normal, Yaştan, Malüllük
+  // Sonuçları sırala: Normal, Yaştan
   // Hepsi gösterilir — uygun olanlar yeşil, uygun olmayanlar sarı
   const siraliSonuclar = sonuclar ? (() => {
     const normal = sonuclar.filter(s => s.type === 'normal');
     const age = sonuclar.filter(s => s.type === 'age');
-    const disability = sonuclar.filter(s => s.type === 'disability');
-    return [...normal, ...age, ...disability];
+    return [...normal, ...age];
   })() : [];
 
   const uygunSayisi = siraliSonuclar.filter(s => s.uygun).length;
