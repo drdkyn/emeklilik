@@ -229,7 +229,7 @@
     ],
     "age": [
       {
-        "name": "Yaştan Emeklilik — 08.09.1999 Öncesi / 23.05.2002 öncesi dolduranlar",
+        "name": "Yaştan Emeklilik — 08.09.1999 Öncesi",
         "dateFrom": "1976-09-08",
         "dateTo": "1999-09-08",
         "serviceYears": 15,
