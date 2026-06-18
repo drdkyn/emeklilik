@@ -203,7 +203,7 @@ export function calculateRetirementOptionsDB(input: RetirementInput): Retirement
           uygun, 
           kosullar,
           notlar: disabilityType === 'after_60' 
-            ? 'Bakıma muhtaç olduğu rapor ile belirlenendeyse hizmet süresi şartı aranmaz.'
+            ? 'Bakıma muhtaç olduğu rapor ile belirlendiyse hizmet süresi şartı aranmaz.'
             : undefined
         });
         break; // giriş tarihine uyan ilk kural
