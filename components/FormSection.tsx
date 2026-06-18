@@ -73,17 +73,45 @@ export default function FormSection({
               name="dogumTarihi" 
               value={form.dogumTarihi}
               onChange={(e) => {
-                // Eğer value boş ise direkt boş yap (hepsini silme desteği)
-                if (e.target.value === '') {
+                let val = e.target.value;
+                
+                // Eğer tamamen boşsa, boş bırak
+                if (val === '') {
                   onFormChange({ target: { name: 'dogumTarihi', value: '' } } as any);
                   return;
                 }
                 
-                // Otomatik noktalar ekleme: 25011977 → 25.01.1977
-                let val = e.target.value.replace(/\D/g, ''); // Sadece rakamlar
-                if (val.length >= 2) val = val.slice(0, 2) + '.' + val.slice(2);
-                if (val.length >= 5) val = val.slice(0, 5) + '.' + val.slice(5, 9);
-                onFormChange({ target: { name: 'dogumTarihi', value: val } } as any);
+                // Sadece rakamları al
+                let numOnly = val.replace(/\D/g, '');
+                
+                // Format yap: GG.AA.YYYY
+                let formatted = '';
+                if (numOnly.length > 0) {
+                  formatted = numOnly.slice(0, 2);
+                  if (numOnly.length > 2) formatted += '.' + numOnly.slice(2, 4);
+                  if (numOnly.length > 4) formatted += '.' + numOnly.slice(4, 8);
+                }
+                
+                onFormChange({ target: { name: 'dogumTarihi', value: formatted } } as any);
+              }}
+              onKeyDown={(e) => {
+                // Backspace'te input boşsa, sadece karakter sil
+                if (e.key === 'Backspace') {
+                  const input = e.currentTarget;
+                  const curPos = input.selectionStart || 0;
+                  
+                  // Eğer nokta öncesi konumdaysak, noktayı da sil
+                  if (input.value[curPos - 1] === '.') {
+                    e.preventDefault();
+                    const newVal = input.value.slice(0, curPos - 2) + input.value.slice(curPos);
+                    onFormChange({ target: { name: 'dogumTarihi', value: newVal } } as any);
+                    // Cursor'ı doğru pozisyona taşı
+                    setTimeout(() => {
+                      input.selectionStart = curPos - 2;
+                      input.selectionEnd = curPos - 2;
+                    }, 0);
+                  }
+                }
               }}
               placeholder="GG.AA.YYYY"
               inputMode="numeric"
@@ -94,9 +122,13 @@ export default function FormSection({
               type="button"
               onClick={() => {
                 const input = document.querySelector('input[name="dogumTarihi"]') as HTMLInputElement;
-                if (input) input.click();
+                if (input) {
+                  input.focus();
+                  // Input açılırsa, seçili hale getir (takvim için)
+                  input.select();
+                }
               }}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
               title="Takvim aç"
             >
               📅
@@ -121,17 +153,45 @@ export default function FormSection({
             name="ilkIsGirisTarihi" 
             value={form.ilkIsGirisTarihi}
             onChange={(e) => {
-              // Eğer value boş ise direkt boş yap (hepsini silme desteği)
-              if (e.target.value === '') {
+              let val = e.target.value;
+              
+              // Eğer tamamen boşsa, boş bırak
+              if (val === '') {
                 onFormChange({ target: { name: 'ilkIsGirisTarihi', value: '' } } as any);
                 return;
               }
               
-              // Otomatik noktalar ekleme: 01012004 → 01.01.2004
-              let val = e.target.value.replace(/\D/g, ''); // Sadece rakamlar
-              if (val.length >= 2) val = val.slice(0, 2) + '.' + val.slice(2);
-              if (val.length >= 5) val = val.slice(0, 5) + '.' + val.slice(5, 9);
-              onFormChange({ target: { name: 'ilkIsGirisTarihi', value: val } } as any);
+              // Sadece rakamları al
+              let numOnly = val.replace(/\D/g, '');
+              
+              // Format yap: GG.AA.YYYY
+              let formatted = '';
+              if (numOnly.length > 0) {
+                formatted = numOnly.slice(0, 2);
+                if (numOnly.length > 2) formatted += '.' + numOnly.slice(2, 4);
+                if (numOnly.length > 4) formatted += '.' + numOnly.slice(4, 8);
+              }
+              
+              onFormChange({ target: { name: 'ilkIsGirisTarihi', value: formatted } } as any);
+            }}
+            onKeyDown={(e) => {
+              // Backspace'te input boşsa, sadece karakter sil
+              if (e.key === 'Backspace') {
+                const input = e.currentTarget;
+                const curPos = input.selectionStart || 0;
+                
+                // Eğer nokta öncesi konumdaysak, noktayı da sil
+                if (input.value[curPos - 1] === '.') {
+                  e.preventDefault();
+                  const newVal = input.value.slice(0, curPos - 2) + input.value.slice(curPos);
+                  onFormChange({ target: { name: 'ilkIsGirisTarihi', value: newVal } } as any);
+                  // Cursor'ı doğru pozisyona taşı
+                  setTimeout(() => {
+                    input.selectionStart = curPos - 2;
+                    input.selectionEnd = curPos - 2;
+                  }, 0);
+                }
+              }
             }}
             placeholder="GG.AA.YYYY"
             inputMode="numeric"
@@ -142,9 +202,13 @@ export default function FormSection({
             type="button"
             onClick={() => {
               const input = document.querySelector('input[name="ilkIsGirisTarihi"]') as HTMLInputElement;
-              if (input) input.click();
+              if (input) {
+                input.focus();
+                // Input açılırsa, seçili hale getir (takvim için)
+                input.select();
+              }
             }}
-            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
             title="Takvim aç"
           >
             📅
