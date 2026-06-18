@@ -62,31 +62,6 @@ export default function FormSection({
       </div>
 
       {/* 4c için kanun seçimi (statü seçiminin hemen altında) */}
-      {statu === '4c' && (
-        <div className="section-box bg-orange-50 border-orange-200 mb-3">
-          <p className="text-xs font-semibold text-orange-800 mb-2">
-            Hangi Kanuna Göre Değerlendirilsin?
-          </p>
-          <div className="grid grid-cols-2 gap-1">
-            {[
-              { value: '5434' as const, label: '5434 (Emekli Sandığı)' },
-              { value: '5510' as const, label: '5510 (Memur)' },
-            ].map((l) => (
-              <label key={l.value} className={`flex items-center justify-center gap-1 cursor-pointer px-2 py-1.5 rounded-lg border text-xs transition-all ${
-                lawType === l.value
-                  ? 'bg-orange-600 text-white border-orange-600 font-semibold'
-                  : 'bg-white text-gray-700 border-gray-300 hover:border-orange-400'
-              }`}>
-                <input type="radio" name="lawType" value={l.value}
-                  checked={lawType === l.value}
-                  onChange={() => onLawTypeChange?.(l.value)}
-                  className="sr-only" />
-                {l.label}
-              </label>
-            ))}
-          </div>
-        </div>
-      )}
 
       {/* KİŞİSEL BİLGİLER */}
       <div className="grid grid-cols-2 gap-2 mb-3">

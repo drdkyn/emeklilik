@@ -66,6 +66,25 @@ export function calculateRetirementOptionsDB(input: RetirementInput): Retirement
   const statusRules = rules[status as keyof typeof rules];
   if (!statusRules) throw new Error(`${status} statüsü bulunamadı`);
 
+  // 2925: 01.10.2008 sonrası girişler için uyarı
+  if (status === '2925') {
+    const cutoffDate = new Date(2008, 9, 1); // 01.10.2008
+    if (ilkGirisTarihi > cutoffDate) {
+      return [{
+        name: '⚠️ 2925 Statüsü - Giriş Tarihi Geçersiz',
+        type: 'normal',
+        uygun: false,
+        kosullar: [{
+          ad: 'Geçerlilik',
+          gerekli: '01.10.2008 veya öncesi',
+          sahip: ilkGirisTarihi.toLocaleDateString('tr-TR'),
+          basarili: false
+        }],
+        notlar: '2925 statüsü 01.10.2008\'de kapandı. Bu tarihten sonra giriş yapanlar için hesaplama yapılmaz.'
+      }];
+    }
+  }
+
   // Kişinin giriş tarihi bu kuralın tarih aralığında mı?
   // ÖNEMLİ: rule tarihlerini lokal saatte parse et (UTC değil) - timezone uyumsuzluğunu önler
   function parseLocal(s: string): Date {
