@@ -186,7 +186,7 @@ export default function Home() {
       (today.getMonth() === ilkGirisTarihi.getMonth() && today.getDate() < ilkGirisTarihi.getDate())) hizmetYili--;
     
     // 4a'da 18 yaş altı girişler için hizmet yılını 18 yaştan hesapla
-    if (form.sigortalilikDurumu === '4a') {
+    if ((form as any).sigortalilikDurumu === '4a') {
       const ageAt18 = new Date(dogumTarihi);
       ageAt18.setFullYear(ageAt18.getFullYear() + 18);
       
