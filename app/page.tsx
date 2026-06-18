@@ -180,9 +180,23 @@ export default function Home() {
     if (today.getMonth() < dogumTarihi.getMonth() ||
       (today.getMonth() === dogumTarihi.getMonth() && today.getDate() < dogumTarihi.getDate())) yas--;
 
+    // Hizmet yılı: 4a'da 18 yaş altı giriş ise 18 yaştan hesapla
     let hizmetYili = today.getFullYear() - ilkGirisTarihi.getFullYear();
     if (today.getMonth() < ilkGirisTarihi.getMonth() ||
       (today.getMonth() === ilkGirisTarihi.getMonth() && today.getDate() < ilkGirisTarihi.getDate())) hizmetYili--;
+    
+    // 4a'da 18 yaş altı girişler için hizmet yılını 18 yaştan hesapla
+    if (form.sigortalilikDurumu === '4a') {
+      const ageAt18 = new Date(dogumTarihi);
+      ageAt18.setFullYear(ageAt18.getFullYear() + 18);
+      
+      if (ilkGirisTarihi < ageAt18) {
+        // 18 yaşından önce girmişse, 18 yaştan hizmet sayıldı
+        hizmetYili = today.getFullYear() - ageAt18.getFullYear();
+        if (today.getMonth() < ageAt18.getMonth() ||
+          (today.getMonth() === ageAt18.getMonth() && today.getDate() < ageAt18.getDate())) hizmetYili--;
+      }
+    }
 
     const toplamGun = form.borçlanmaDahil
       ? form.priGunu
