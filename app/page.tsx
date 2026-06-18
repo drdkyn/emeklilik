@@ -266,6 +266,21 @@ export default function Home() {
                   <StatCard label="Toplam Gün" value={ozet!.toplamGun} />
                 </div>
 
+                {/* 18 YAŞ KURALI BİLGİ NOTU */}
+                {status === '4a' && (() => {
+                  const ageAt18 = new Date(dogumTarihi);
+                  ageAt18.setFullYear(ageAt18.getFullYear() + 18);
+                  return ilkGirisTarihi < ageAt18;
+                })() && (
+                  <div className="bg-blue-50 border border-blue-300 rounded-lg p-3">
+                    <p className="text-xs text-blue-800">
+                      <span className="text-lg mr-2">💡</span>
+                      <strong>Not:</strong> 18 yaşından önce işe girmişsiniz. 
+                      Hizmet süresi <strong>18 yaş tarihinden</strong> itibaren sayılmaktadır.
+                    </p>
+                  </div>
+                )}
+
                 {/* BANNER */}
                 {uygunSayisi > 0 ? (
                   <div className="bg-green-100 border-2 border-green-500 rounded-xl p-4 text-center">
@@ -349,6 +364,26 @@ export default function Home() {
                           </div>
                         ))}
                       </div>
+
+                      {/* 18 YAŞ KURALI BİLGİ NOTU (HİZMET YILI VARSA) */}
+                      {(() => {
+                        const hasServiceYears = sonuc.kosullar.some(k => k.ad === 'Hizmet Yılı');
+                        if (!hasServiceYears || status !== '4a') return null;
+                        
+                        const ageAt18 = new Date(dogumTarihi);
+                        ageAt18.setFullYear(ageAt18.getFullYear() + 18);
+                        
+                        if (ilkGirisTarihi >= ageAt18) return null; // 18+ yaşında girmişse gösterme
+                        
+                        return (
+                          <div className="bg-blue-50 border border-blue-200 rounded p-2.5 mt-3 text-xs text-blue-700">
+                            <span className="mr-1.5">💡</span>
+                            18 yaştan önce işe girişiniz için hizmet süresi 
+                            <strong> 18 yaş tarihinden </strong>
+                            itibaren sayılmaktadır.
+                          </div>
+                        );
+                      })()}
 
                       {sonuc.notlar && (
                         <p className="text-xs text-gray-500 mt-3 italic border-t border-gray-200 pt-2">
